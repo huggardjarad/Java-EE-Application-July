@@ -15,7 +15,7 @@ public class Transactions {
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "TRANSACTIONID")
 	private Long id;
-	@Column(name = "TRANSACTIONREF.", length = 50)
+	@Column(name = "TRANSACTIONREF", length = 50)
 	private String transactionReference;
 	
 	@ManyToOne
