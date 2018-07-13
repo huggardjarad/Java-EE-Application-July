@@ -14,22 +14,24 @@ import utils.JsonUtil;
 
 @Default
 @Transactional(TxType.SUPPORTS)
-public class AccountServiceDBImpl implements AccountServiceDBRepo {
-	
+public class AccountServiceDBImpl implements AccountServiceRepo {
 	
 	@PersistenceContext(unitName = "primary")
 	private EntityManager manager;
 	
 	@Inject
-	private JsonUtil util; 
+	private JsonUtil util;  
 	
-
-	public List<Account> findAllAccounts(){
-		TypedQuery<Account> query = manager.createQuery("SELECT a FROM Account a ORDER BY a.ACCOUNTID DESC", Account.class);
-		return query.getResultList();
+	public String findAllAccounts(){
+		TypedQuery<Account> query = manager.createQuery("SELECT a FROM Account a", Account.class);
+		
+		List<Account> account = query.getResultList();
+		
+		return util.getJsonForObject(account);
 	}
+	
 	public Account getAnAccount(Long id) {
-		return manager.find(Account.class, id); 
+		return manager.find(Account.class, id) ;
 	}
 	
 	@Transactional(TxType.REQUIRED)
@@ -39,6 +41,7 @@ public class AccountServiceDBImpl implements AccountServiceDBRepo {
 		manager.persist(account1);
 		return "{\"message\": \"account sucessfully added\"}";
 	}
+	
 	@Transactional(TxType.REQUIRED)
 	public String deleteAccount(Long id) {
 		Account accountInDB = getAnAccount(id);
@@ -47,12 +50,24 @@ public class AccountServiceDBImpl implements AccountServiceDBRepo {
 		}
 	 return "{\"message\": \"account sucessfully deleted\"}";
 	}
+	
 	@Transactional(TxType.REQUIRED)
-	public String updateAccount(Account account, String firstName, String lastName, String accountNumber){
-		account.setFirstName(firstName);
-		account.setLastName(lastName);
-		account.setAccountNumber(accountNumber);
-		manager.refresh(account);
+	public String updateAccount(Long id, String accountToUpdate){
+		Account updatedAccount = util.getObjectForJson(accountToUpdate, Account.class);
+		Account accountFromDB = getAnAccount(id);
+		if (accountToUpdate != null) {
+			accountFromDB = updatedAccount;
+			manager.merge(accountFromDB);
+		}
+	
 		return "{\"message\": \"account sucessfully updated\"}";
+	}
+	
+	public void setManager(EntityManager manager) {
+		this.manager = manager;
+	}
+	
+	public void setUtil(JsonUtil util) {
+		this.util = util;
 	}
 }

@@ -1,16 +1,16 @@
 package domain;
 
-import java.util.List;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+
+
 import javax.validation.constraints.Size;
-import javax.persistence.JoinColumn;
+
 
 @Entity
 public class Account {
@@ -25,11 +25,8 @@ public class Account {
 	@Column(name = "ACCOUNTNUMBER")
 	@Size(min = 8, max = 8)
 	private String accountNumber;
-	@OneToMany
-	@JoinTable(name = "Account_Transactions", joinColumns = @JoinColumn(name = "ACCOUNTID"), inverseJoinColumns = @JoinColumn(name = "TRANSACTIONID"))
-	private List<Transactions> transactions;
 	
-	
+	public Account() {}
 	
 	public Account(String firstName, String lastName, String accountNumber) {
 		this.firstName = firstName;
