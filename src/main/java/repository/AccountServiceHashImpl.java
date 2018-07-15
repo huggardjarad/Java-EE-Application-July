@@ -7,6 +7,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 
+import constants.Constants;
 import domain.Account;
 import utils.JsonUtil;
 
@@ -37,17 +38,17 @@ public class AccountServiceHashImpl implements AccountServiceRepo {
 		id++;
 		Account account1  = util.getObjectForJson(account, Account.class);
 		accountMap.put(id, account1);
-		return account;
+		return Constants.ACCOUNTCREATED;
 		
 	}
 	
 	public String deleteAccount(Long id) {
 		if(accountMap.containsKey(id)) {
 			 accountMap.remove(id);
-			 return "Account Deleted";
+			 return Constants.ACCOUNTDELETED;
 		}
 		else {
-			return "Account does not exist";
+			return Constants.ACCOUNTNOEXIST;
 		}
 	}
 	
@@ -56,7 +57,7 @@ public class AccountServiceHashImpl implements AccountServiceRepo {
 		Account newAccount = util.getObjectForJson(accountToUpdate, Account.class);
 		accountMap.put(id, newAccount);
 		
-		return accountToUpdate;
+		return Constants.ACCOUNTUPDATED;
 			
 		}
 	private void initAccountMap() {
