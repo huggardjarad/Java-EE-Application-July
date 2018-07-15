@@ -1,19 +1,21 @@
 package domain;
 
-import java.util.List;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+
+
 import javax.validation.constraints.Size;
+
 
 @Entity
 public class Account {
 	
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "ACCOUNTID")
 	private Long id;
 	@Column(name = "FIRSTNAME", length = 25)
@@ -23,10 +25,8 @@ public class Account {
 	@Column(name = "ACCOUNTNUMBER")
 	@Size(min = 8, max = 8)
 	private String accountNumber;
-	@OneToMany
-	private List<Transactions> transactions;
 	
-	
+	public Account() {}
 	
 	public Account(String firstName, String lastName, String accountNumber) {
 		this.firstName = firstName;
@@ -56,5 +56,8 @@ public class Account {
 	
 	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 }
