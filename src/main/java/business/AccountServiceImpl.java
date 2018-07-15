@@ -16,14 +16,13 @@ public class AccountServiceImpl implements AccountService {
 	@Inject 
 	private JsonUtil util;
 	
-	
+	@Inject
 	private AccountCheck accountChecker;
 
 
 	public String createAccount(String account) {
 		Account accountJson = util.getObjectForJson(account, Account.class);
-		accountChecker.accountCheck(accountJson);
-		if (accountChecker.accountCheck(accountJson).equals("{\"message\": \"account is blocked!\"}")) {
+		if (accountChecker.accountCheck(accountJson) == false) {
 			return "Account is blocked";
 		}
 		else {	
@@ -38,7 +37,13 @@ public class AccountServiceImpl implements AccountService {
 
 	public String updateAccount(Long id, String accountToUpdate) {
 		
+		Account accountJson = util.getObjectForJson(accountToUpdate, Account.class);
+		if (accountChecker.accountCheck(accountJson) == false) {
+			return "Account is blocked";
+		}
+		else {	
 		return repo.updateAccount(id, accountToUpdate);
+		} 
 	}
 	
 	public void setRepo(AccountServiceRepo repo) {

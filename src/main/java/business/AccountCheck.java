@@ -1,17 +1,22 @@
 package business;
 
+
 import domain.Account;
 
 public class AccountCheck {
 	
-	public String accountCheck(Account account) {
+	
+	
+	public boolean accountCheck(Account account) {
 		
 		if (account.getAccountNumber().equals("99999999")) {
 			
-			return "{\"message\": \"account is blocked!\"}";
+			return false;
 		}else {
-			 return "{\"message\": \"account sucessfully added\"}";
+			return true;
 		}
+		
 	}
-	
 }
+	
+

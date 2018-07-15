@@ -57,6 +57,7 @@ public class AccountServiceDBImpl implements AccountServiceRepo {
 		Account accountFromDB = getAnAccount(id);
 		if (accountToUpdate != null) {
 			accountFromDB = updatedAccount;
+			accountFromDB.setId(id);
 			manager.merge(accountFromDB);
 		}
 	
