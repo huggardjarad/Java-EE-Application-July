@@ -2,7 +2,7 @@ package business;
 
 import javax.inject.Inject;
 
-
+import constants.Constants;
 import domain.Account;
 import repository.AccountServiceRepo;
 import utils.JsonUtil;
@@ -23,7 +23,7 @@ public class AccountServiceImpl implements AccountService {
 	public String createAccount(String account) {
 		Account accountJson = util.getObjectForJson(account, Account.class);
 		if (accountChecker.accountCheck(accountJson) == false) {
-			return "Account is blocked";
+			return Constants.ACCOUNTBLOCKED;
 		}
 		else {	
 		return repo.createAccount(account);
@@ -39,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
 		
 		Account accountJson = util.getObjectForJson(accountToUpdate, Account.class);
 		if (accountChecker.accountCheck(accountJson) == false) {
-			return "Account is blocked";
+			return Constants.ACCOUNTBLOCKED;
 		}
 		else {	
 		return repo.updateAccount(id, accountToUpdate);
