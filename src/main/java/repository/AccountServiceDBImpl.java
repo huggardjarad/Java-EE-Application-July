@@ -9,6 +9,7 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
+import constants.Constants;
 import domain.Account;
 import utils.JsonUtil;
 
@@ -39,7 +40,7 @@ public class AccountServiceDBImpl implements AccountServiceRepo {
 		
 		Account account1  = util.getObjectForJson(account, Account.class);
 		manager.persist(account1);
-		return "{\"message\": \"account sucessfully added\"}";
+		return Constants.ACCOUNTCREATED;
 	}
 	
 	@Transactional(TxType.REQUIRED)
@@ -48,7 +49,7 @@ public class AccountServiceDBImpl implements AccountServiceRepo {
 		if(accountInDB != null) {
 			manager.remove(accountInDB);
 		}
-	 return "{\"message\": \"account sucessfully deleted\"}";
+	 return Constants.ACCOUNTDELETED;
 	}
 	
 	@Transactional(TxType.REQUIRED)
@@ -61,7 +62,7 @@ public class AccountServiceDBImpl implements AccountServiceRepo {
 			manager.merge(accountFromDB);
 		}
 	
-		return "{\"message\": \"account sucessfully updated\"}";
+		return Constants.ACCOUNTUPDATED;
 	}
 	
 	public void setManager(EntityManager manager) {
